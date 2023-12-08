@@ -1,0 +1,8 @@
+-
+  areYouSureCheckbox:
+    locatorType: xpath
+    locator: "//input[@id='check']"
+-
+  cancelButton:
+    locatorType: partialLinkText
+    locator: cancel_button
