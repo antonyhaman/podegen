@@ -5,5 +5,5 @@ import io.github.classgraph.Resource;
 
 public interface Parser {
 
-    PageObjectRecord parse(Resource resourceToParse);
+    PageObjectRecord parse(Resource resource);
 }

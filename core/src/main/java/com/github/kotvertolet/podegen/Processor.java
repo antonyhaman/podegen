@@ -30,14 +30,13 @@ import java.util.Set;
 @AutoService(javax.annotation.processing.Processor.class)
 public class Processor extends AbstractProcessor {
 
+    public final static String SUPPORTED_FILE_PREFIX = "POGE_";
+    public final static String SUPPORTED_FORMATS_PATTERN = "(\\.yaml|\\.yml|\\.json)";
+    public final static String POGE_FILES_PATTERN = String.format("^.*(%s.*%s)", SUPPORTED_FILE_PREFIX, SUPPORTED_FORMATS_PATTERN);
     private Types typeUtils;
     private Elements elementUtils;
     private Filer filer;
     private Messager messager;
-
-    public final static String SUPPORTED_FILE_PREFIX = "POGE_";
-    public final static String SUPPORTED_FORMATS_PATTERN = "(\\.yaml|\\.yml|\\.json)";
-    public final static String POGE_FILES_PATTERN = String.format("^.*(%s.*%s)", SUPPORTED_FILE_PREFIX, SUPPORTED_FORMATS_PATTERN);
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -54,12 +53,8 @@ public class Processor extends AbstractProcessor {
         if (!annotationsSet.isEmpty()) {
             ScanResult scanResult = new ClassGraph().acceptModules().disableJarScanning().disableNestedJarScanning()
                     .disableRuntimeInvisibleAnnotations().scan();
-            if (scanResult != null) {
-                try (scanResult) {
-                    scanForPodegenFiles(scanResult).stream().map(this::processPageObjTemplateFile).forEach(this::generateCode);
-                }
-            } else {
-                System.out.println("No scan results were found");
+            try (scanResult) {
+                scanForPodegenFiles(scanResult).stream().map(this::processPageObjTemplateFile).forEach(this::generateCode);
             }
             return true;
         }

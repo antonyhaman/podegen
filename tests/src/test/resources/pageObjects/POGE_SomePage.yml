@@ -1,3 +1,4 @@
-submitButton:
-  locatorType: name
-  locator: "submit"
+-
+  submitButton:
+    locatorType: name
+    locator: "submit"
