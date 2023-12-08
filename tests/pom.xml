@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>pogegen</artifactId>
+        <artifactId>podegen</artifactId>
         <groupId>com.github.kotvertolet</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
@@ -31,7 +31,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>${basedir}/target/generated-sources/annotations</source>
+                                <source>${basedir}/target/generated-test-sources</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -43,14 +43,14 @@
     <dependencies>
         <dependency>
             <groupId>com.github.kotvertolet</groupId>
-            <artifactId>processing</artifactId>
+            <artifactId>core</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
+            <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

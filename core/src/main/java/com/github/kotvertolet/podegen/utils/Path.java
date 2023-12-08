@@ -1,10 +1,10 @@
-package com.github.kotvertolet.utils;
+package com.github.kotvertolet.podegen.utils;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.github.kotvertolet.Processor.SUPPORTED_FILE_PREFIX;
-import static com.github.kotvertolet.Processor.SUPPORTED_FORMATS_PATTERN;
+import static com.github.kotvertolet.podegen.Processor.SUPPORTED_FILE_PREFIX;
+import static com.github.kotvertolet.podegen.Processor.SUPPORTED_FORMATS_PATTERN;
 
 public class Path {
 

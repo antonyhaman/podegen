@@ -1,4 +1,4 @@
-package com.github.kotvertolet.data;
+package com.github.kotvertolet.podegen.data;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.github.kotvertolet.data.enums;
+package com.github.kotvertolet.podegen.data.enums;
 
 public enum Flavour {
 

@@ -1,12 +1,12 @@
-package com.github.kotvertolet;
+package com.github.kotvertolet.podegen;
 
-import com.github.kotvertolet.annotations.PageObject;
-import com.github.kotvertolet.builder.PageFactoryBuilder;
-import com.github.kotvertolet.data.PageObjectRecord;
-import com.github.kotvertolet.data.enums.Extension;
-import com.github.kotvertolet.parsers.JsonParser;
-import com.github.kotvertolet.parsers.Parser;
-import com.github.kotvertolet.parsers.YamlParser;
+import com.github.kotvertolet.podegen.annotations.PageObject;
+import com.github.kotvertolet.podegen.builder.PageFactoryBuilder;
+import com.github.kotvertolet.podegen.data.PageObjectRecord;
+import com.github.kotvertolet.podegen.data.enums.Extension;
+import com.github.kotvertolet.podegen.parsers.JsonParser;
+import com.github.kotvertolet.podegen.parsers.Parser;
+import com.github.kotvertolet.podegen.parsers.YamlParser;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
@@ -25,7 +25,7 @@ import java.util.Set;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
 @SupportedAnnotationTypes({
-        "com.github.kotvertolet.annotations.PageObject"
+        "com.github.kotvertolet.podegen.annotations.PageObject"
 })
 @AutoService(javax.annotation.processing.Processor.class)
 public class Processor extends AbstractProcessor {

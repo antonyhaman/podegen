@@ -1,7 +1,7 @@
-package com.github.kotvertolet.builder;
+package com.github.kotvertolet.podegen.builder;
 
-import com.github.kotvertolet.data.Element;
-import com.github.kotvertolet.data.PageObjectRecord;
+import com.github.kotvertolet.podegen.data.Element;
+import com.github.kotvertolet.podegen.data.PageObjectRecord;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;

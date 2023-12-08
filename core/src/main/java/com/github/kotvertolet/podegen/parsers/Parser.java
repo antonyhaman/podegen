@@ -1,6 +1,6 @@
-package com.github.kotvertolet.parsers;
+package com.github.kotvertolet.podegen.parsers;
 
-import com.github.kotvertolet.data.PageObjectRecord;
+import com.github.kotvertolet.podegen.data.PageObjectRecord;
 import io.github.classgraph.Resource;
 
 public interface Parser {

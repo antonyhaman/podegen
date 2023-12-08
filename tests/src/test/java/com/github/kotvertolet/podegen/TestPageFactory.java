@@ -1,4 +1,4 @@
-package com.github.kotvertolet;
+package com.github.kotvertolet.podegen;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

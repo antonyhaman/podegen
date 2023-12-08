@@ -1,6 +1,6 @@
-package com.github.kotvertolet.annotations;
+package com.github.kotvertolet.podegen.annotations;
 
-import com.github.kotvertolet.data.enums.Flavour;
+import com.github.kotvertolet.podegen.data.enums.Flavour;
 
 import java.lang.annotation.*;
 

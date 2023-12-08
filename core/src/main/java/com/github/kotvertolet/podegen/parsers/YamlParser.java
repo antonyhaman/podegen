@@ -1,10 +1,10 @@
-package com.github.kotvertolet.parsers;
+package com.github.kotvertolet.podegen.parsers;
 
 import com.esotericsoftware.yamlbeans.YamlReader;
-import com.github.kotvertolet.data.PageObjectRecord;
-import com.github.kotvertolet.data.Element;
-import com.github.kotvertolet.data.enums.LocatorType;
-import com.github.kotvertolet.utils.Path;
+import com.github.kotvertolet.podegen.data.PageObjectRecord;
+import com.github.kotvertolet.podegen.data.Element;
+import com.github.kotvertolet.podegen.data.enums.LocatorType;
+import com.github.kotvertolet.podegen.utils.Path;
 import io.github.classgraph.Resource;
 
 import java.io.IOException;

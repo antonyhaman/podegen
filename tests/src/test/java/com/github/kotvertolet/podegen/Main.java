@@ -1,7 +1,7 @@
-package com.github.kotvertolet;
+package com.github.kotvertolet.podegen;
 
-import com.github.kotvertolet.annotations.PageObject;
 
+import com.github.kotvertolet.podegen.annotations.PageObject;
 import org.junit.jupiter.api.Test;
 
 @PageObject
@@ -13,6 +13,5 @@ public class Main {
     @Test
     public void test() {
         System.gc();
-
     }
 }
