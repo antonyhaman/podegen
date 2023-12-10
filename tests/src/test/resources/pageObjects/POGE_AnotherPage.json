@@ -2,7 +2,7 @@
   {
     "areYouSureCheckbox": {
       "locatorType": "xpath",
-      "locator": "//input[@id='check']"
+      "locator": "&//input[@id='check']"
     }
   },
   {
