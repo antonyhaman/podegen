@@ -2,11 +2,13 @@ package com.github.kotvertolet.podegen;
 
 import com.github.kotvertolet.podegen.annotations.PageObject;
 import com.github.kotvertolet.podegen.builder.PageFactoryBuilder;
+import com.github.kotvertolet.podegen.builder.PageObjectBuilder;
 import com.github.kotvertolet.podegen.data.PageObjectRecord;
 import com.github.kotvertolet.podegen.data.enums.Extension;
 import com.github.kotvertolet.podegen.parsers.JsonParser;
 import com.github.kotvertolet.podegen.parsers.Parser;
 import com.github.kotvertolet.podegen.parsers.YamlParser;
+import com.github.kotvertolet.podegen.utils.Config;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
@@ -51,6 +53,11 @@ public class Processor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         var annotationsSet = roundEnv.getElementsAnnotatedWith(PageObject.class);
         if (!annotationsSet.isEmpty()) {
+            if (annotationsSet.size() > 1) {
+                throw new RuntimeException("More than one PageObject annotations aren't allowed");
+            }
+            Config.initConfig(annotationsSet.stream().findAny().get().getAnnotation(PageObject.class));
+
             ScanResult scanResult = new ClassGraph().acceptModules().disableJarScanning().disableNestedJarScanning()
                     .disableRuntimeInvisibleAnnotations().scan();
             try (scanResult) {
@@ -67,17 +74,27 @@ public class Processor extends AbstractProcessor {
         if (!rawPageFiles.isEmpty()) {
             return rawPageFiles;
         } else {
-            System.out.println("No page files were found");
-            return null;
+            throw new RuntimeException("No suitable page object files were found");
         }
     }
 
     private void generateCode(PageObjectRecord pageObjectRecord) {
-        TypeSpec pageObjectClass = new PageFactoryBuilder(pageObjectRecord)
-                .addFields(pageObjectRecord.elements())
-                .addConstructor()
-                .addGetters()
-                .build();
+        Config conf = Config.getInstance();
+        TypeSpec pageObjectClass;
+        if (conf.isPageFactory()) {
+            pageObjectClass = new PageFactoryBuilder(pageObjectRecord)
+                    .addFields()
+                    .addConstructor()
+                    .addGetters()
+                    .build();
+        }
+        else {
+            pageObjectClass = new PageObjectBuilder(pageObjectRecord)
+                    .addFields()
+                    .addGetters()
+                    .addConstructor()
+                    .build();
+        }
         try {
             JavaFile.builder(this.getClass().getPackageName() + "." + pageObjectRecord.packages(), pageObjectClass)
                     .build()

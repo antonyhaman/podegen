@@ -25,8 +25,8 @@ public class PageFactoryBuilder extends AbstractBuilder {
         return this;
     }
 
-    public PageFactoryBuilder addFields(Iterable<Element> elements) {
-        elements.forEach(this::addField);
+    public PageFactoryBuilder addFields() {
+        pageObjectRecord.elements().forEach(this::addField);
         return this;
     }
 
@@ -39,19 +39,9 @@ public class PageFactoryBuilder extends AbstractBuilder {
     }
 
     @Override
-    public PageFactoryBuilder addMethod(CodeBlock codeBlock) {
-        return null;
-    }
-
-    //TODO: Implement adding annotation provided through configuration
-    @Override
-    public TypeSpec build() {
-        return TypeSpec.classBuilder(pageObjectRecord.className())
-                .addModifiers(Modifier.PUBLIC)
-                //.addAnnotation(Getter.class)
-                .addFields(fields)
-                .addMethods(methods)
-                .build();
+    public PageFactoryBuilder addMethod(MethodSpec methodSpec) {
+        methods.add(methodSpec);
+        return this;
     }
 
     /**
@@ -67,8 +57,19 @@ public class PageFactoryBuilder extends AbstractBuilder {
                     .returns(WebElement.class)
                     .addCode(CodeBlock.of(String.format("return %s;", fieldName)))
                     .build();
-            methods.add(method);
+            addMethod(method);
         }
         return this;
+    }
+
+    //TODO: Implement adding annotation provided through configuration
+    @Override
+    public TypeSpec build() {
+        return TypeSpec.classBuilder(pageObjectRecord.className())
+                .addModifiers(Modifier.PUBLIC)
+                //.addAnnotation(Getter.class)
+                .addFields(fields)
+                .addMethods(methods)
+                .build();
     }
 }

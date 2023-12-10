@@ -2,11 +2,11 @@ package com.github.kotvertolet.podegen.builder;
 
 import com.github.kotvertolet.podegen.data.Element;
 import com.github.kotvertolet.podegen.data.PageObjectRecord;
-import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
+import javax.lang.model.element.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +22,17 @@ public abstract class AbstractBuilder {
         this.methods = new ArrayList<>();
     }
 
-    public abstract PageFactoryBuilder addField(Element element);
+    public abstract AbstractBuilder addField(Element element);
 
-    public abstract PageFactoryBuilder addConstructor();
+    public abstract AbstractBuilder addConstructor();
 
-    public abstract PageFactoryBuilder addMethod(CodeBlock code);
+    public abstract AbstractBuilder addMethod(MethodSpec code);
 
-    public abstract TypeSpec build();
+    public TypeSpec build() {
+        return TypeSpec.classBuilder(pageObjectRecord.className())
+                .addModifiers(Modifier.PUBLIC)
+                .addFields(fields)
+                .addMethods(methods)
+                .build();
+    }
 }
