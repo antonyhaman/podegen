@@ -3,7 +3,10 @@ package com.github.kotvertolet.podegen;
 import com.github.kotvertolet.podegen.annotations.PageObject;
 import com.github.kotvertolet.podegen.builder.PageFactoryBuilder;
 import com.github.kotvertolet.podegen.builder.PageObjectBuilder;
+import com.github.kotvertolet.podegen.data.AbstractCodeGenerator;
 import com.github.kotvertolet.podegen.data.PageObjectRecord;
+import com.github.kotvertolet.podegen.data.SelenideCodeGenerator;
+import com.github.kotvertolet.podegen.data.SeleniumCodeGenerator;
 import com.github.kotvertolet.podegen.data.enums.Extension;
 import com.github.kotvertolet.podegen.parsers.JsonParser;
 import com.github.kotvertolet.podegen.parsers.Parser;
@@ -81,20 +84,13 @@ public class Processor extends AbstractProcessor {
     private void generateCode(PageObjectRecord pageObjectRecord) {
         Config conf = Config.getInstance();
         TypeSpec pageObjectClass;
-        if (conf.isPageFactory()) {
-            pageObjectClass = new PageFactoryBuilder(pageObjectRecord)
-                    .addFields()
-                    .addConstructor()
-                    .addGetters()
-                    .build();
-        }
-        else {
-            pageObjectClass = new PageObjectBuilder(pageObjectRecord)
-                    .addFields()
-                    .addGetters()
-                    .addConstructor()
-                    .build();
-        }
+
+        AbstractCodeGenerator codeBuilder = switch (conf.getFlavour()) {
+            case Selenium -> new SeleniumCodeGenerator(pageObjectRecord);
+            case Selenide -> new SelenideCodeGenerator(pageObjectRecord);
+        };
+
+        pageObjectClass = codeBuilder.generateCode();
         try {
             JavaFile.builder(this.getClass().getPackageName() + "." + pageObjectRecord.packages(), pageObjectClass)
                     .build()

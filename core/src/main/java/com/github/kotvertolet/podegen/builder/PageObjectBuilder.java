@@ -40,7 +40,6 @@ public class PageObjectBuilder extends AbstractBuilder {
                     .initializer(String.format("$T.%s($S)", element.locatorType().getValue()), By.class, element.locator())
                     .build());
         }
-
         return this;
     }
 

@@ -16,7 +16,7 @@ public abstract class AbstractBuilder {
 
     protected List<MethodSpec> methods;
 
-    protected final static String FIND_ALL_FLAG = "&";
+    protected final static String FIND_ALL_FLAG = "*";
     protected final TypeName webElementsListType;
 
     protected AbstractBuilder(PageObjectRecord pageObjectRecord) {
