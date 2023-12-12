@@ -21,17 +21,18 @@ public enum LocatorType {
             lookup.put(ext.getValue(), ext);
         }
     }
+
     String value;
 
     LocatorType(String value) {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
-
     public static LocatorType get(String locatorType) {
         return lookup.get(locatorType);
+    }
+
+    public String getValue() {
+        return value;
     }
 }

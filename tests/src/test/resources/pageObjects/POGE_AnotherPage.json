@@ -1,14 +1,20 @@
 [
   {
-    "areYouSureCheckbox": {
+    "$$areYouSureCheckbox": {
       "locatorType": "xpath",
-      "locator": "&//input[@id='check']"
+      "locator": "//input[@id='check']"
     }
   },
   {
-    "cancelButton": {
+    "$cancelButton": {
       "locatorType": "partialLinkText",
       "locator": "cancel_button"
+    }
+  },
+  {
+    "header": {
+      "locatorType": "tagName",
+      "locator": "head"
     }
   }
 ]

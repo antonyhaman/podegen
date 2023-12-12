@@ -9,8 +9,6 @@ public enum Extension {
     YAML("yaml"),
     YML("yml");
 
-    String value;
-
     private static final Map<String, Extension> lookup = new HashMap<String, Extension>();
 
     static {
@@ -19,15 +17,17 @@ public enum Extension {
         }
     }
 
+    String value;
+
     Extension(String value) {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
-
     public static Extension get(String extension) {
         return lookup.get(extension);
+    }
+
+    public String getValue() {
+        return value;
     }
 }

@@ -2,9 +2,10 @@ package com.github.kotvertolet.podegen;
 
 
 import com.github.kotvertolet.podegen.annotations.PageObject;
-import com.github.kotvertolet.podegen.data.enums.Flavour;
+import com.github.kotvertolet.podegen.data.enums.Flavours;
+import com.github.kotvertolet.podegen.data.enums.Strategies;
 
-@PageObject(flavour = Flavour.Selenide, pageFactory = false)
+@PageObject(flavour = Flavours.Selenide, strategy = Strategies.PageFactory)
 public class Main {
 
     public static void main(String[] args) {

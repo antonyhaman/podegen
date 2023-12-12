@@ -1,4 +1,4 @@
 -
-  submitButton:
+  $$submitButton:
     locatorType: name
-    locator: "&submit"
+    locator: "submit"
