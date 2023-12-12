@@ -1,12 +1,8 @@
 package com.github.kotvertolet.podegen;
 
 import com.github.kotvertolet.podegen.annotations.PageObject;
-import com.github.kotvertolet.podegen.builder.PageFactoryBuilder;
-import com.github.kotvertolet.podegen.builder.PageObjectBuilder;
-import com.github.kotvertolet.podegen.data.AbstractCodeGenerator;
-import com.github.kotvertolet.podegen.data.PageObjectRecord;
-import com.github.kotvertolet.podegen.data.SelenideCodeGenerator;
-import com.github.kotvertolet.podegen.data.SeleniumCodeGenerator;
+import com.github.kotvertolet.podegen.builder.CodeGeneratorBuilder;
+import com.github.kotvertolet.podegen.data.PageObjectTemplate;
 import com.github.kotvertolet.podegen.data.enums.Extension;
 import com.github.kotvertolet.podegen.parsers.JsonParser;
 import com.github.kotvertolet.podegen.parsers.Parser;
@@ -81,18 +77,15 @@ public class Processor extends AbstractProcessor {
         }
     }
 
-    private void generateCode(PageObjectRecord pageObjectRecord) {
+    private void generateCode(PageObjectTemplate pageObjectTemplate) {
         Config conf = Config.getInstance();
-        TypeSpec pageObjectClass;
-
-        AbstractCodeGenerator codeBuilder = switch (conf.getFlavour()) {
-            case Selenium -> new SeleniumCodeGenerator(pageObjectRecord);
-            case Selenide -> new SelenideCodeGenerator(pageObjectRecord);
-        };
-
-        pageObjectClass = codeBuilder.generateCode();
+        TypeSpec pageObjectClass = CodeGeneratorBuilder.builder()
+                .addFlavour(conf.getFlavourType())
+                .addStrategy(conf.getStrategyType())
+                .addPageObjectTemplate(pageObjectTemplate)
+                .generateCode();
         try {
-            JavaFile.builder(this.getClass().getPackageName() + "." + pageObjectRecord.packages(), pageObjectClass)
+            JavaFile.builder(this.getClass().getPackageName() + "." + pageObjectTemplate.packages(), pageObjectClass)
                     .build()
                     .writeTo(filer);
         } catch (IOException e) {
@@ -100,7 +93,7 @@ public class Processor extends AbstractProcessor {
         }
     }
 
-    private PageObjectRecord processPageObjTemplateFile(Resource rawPogeFile) {
+    private PageObjectTemplate processPageObjTemplateFile(Resource rawPogeFile) {
         return getAppropriateParser(rawPogeFile.getPath()).parse(rawPogeFile);
     }
 

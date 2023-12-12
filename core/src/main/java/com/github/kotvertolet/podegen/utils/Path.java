@@ -39,4 +39,9 @@ public class Path {
         }
         return pkg;
     }
+
+    //TODO: Have to come up with better solution
+    public String getTargetPackage() {
+        return "com.github.kotvertolet.podegen." + getPackage();
+    }
 }

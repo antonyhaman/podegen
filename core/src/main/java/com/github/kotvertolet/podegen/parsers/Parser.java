@@ -1,9 +1,9 @@
 package com.github.kotvertolet.podegen.parsers;
 
-import com.github.kotvertolet.podegen.data.PageObjectRecord;
+import com.github.kotvertolet.podegen.data.PageObjectTemplate;
 import io.github.classgraph.Resource;
 
 public interface Parser {
 
-    PageObjectRecord parse(Resource resource);
+    PageObjectTemplate parse(Resource resource);
 }
