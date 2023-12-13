@@ -17,18 +17,20 @@ public class SelenideFlavour implements Flavourable {
         return ClassName.get(ElementsCollection.class);
     }
 
+    //TODO: Find a way to import these gracefully
     @Override
     public String getFindFirstMethodName() {
-        return "$";
+        return "com.codeborne.selenide.Selenide.$";
     }
 
+    //TODO: Find a way to import these gracefully
     @Override
     public String getFindAllMethodName() {
-        return "$$";
+        return "com.codeborne.selenide.Selenide.$$";
     }
 
     @Override
     public String getGetterReturnValue() {
-        return "return %s(%s);";
+        return "return $L($L);";
     }
 }

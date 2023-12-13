@@ -3,6 +3,7 @@ package com.github.kotvertolet.podegen.strategies;
 import com.github.kotvertolet.podegen.data.Element;
 import com.github.kotvertolet.podegen.data.PageObjectTemplate;
 import com.github.kotvertolet.podegen.flavours.Flavourable;
+import com.github.kotvertolet.podegen.flavours.SeleniumFlavour;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
@@ -43,8 +44,7 @@ public class PageObjectStrategy<T extends Flavourable> extends Strategy<T> {
                 .returns(isFindMany ? getFlavour().getWebElementsTypeName() : getFlavour().getWebElementTypeName());
 
         String methodToCall = isFindMany ? getFlavour().getFindAllMethodName() : getFlavour().getFindFirstMethodName();
-        builder.addCode(CodeBlock.of(String.format(getFlavour().getGetterReturnValue(), methodToCall, fieldName)));
-
+        builder.addCode(CodeBlock.of(getFlavour().getGetterReturnValue(), methodToCall, fieldName));
         return builder.build();
     }
 
@@ -66,11 +66,16 @@ public class PageObjectStrategy<T extends Flavourable> extends Strategy<T> {
             MethodSpec getterMethodSpec = getGetterMethodSpec(elementFieldSpec, element.isFindMany());
             methodSpecs.add(getterMethodSpec);
         }
-        return TypeSpec.classBuilder(getPageObjectTemplate().className())
+
+        TypeSpec.Builder build = TypeSpec.classBuilder(getPageObjectTemplate().className())
                 .addModifiers(Modifier.PUBLIC)
-                .addFields(fieldSpecs)
-                .addField(getDriverFieldSpec())
-                .addMethod(getMethodSpecForConstructor())
+                .addFields(fieldSpecs);
+        if (getFlavour().getClass() == SeleniumFlavour.class) {
+            build
+                    .addField(getDriverFieldSpec())
+                    .addMethod(getMethodSpecForConstructor());
+        }
+        return build
                 .addMethods(methodSpecs)
                 .build();
     }

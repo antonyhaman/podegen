@@ -31,6 +31,6 @@ public class SeleniumFlavour implements Flavourable {
 
     @Override
     public String getGetterReturnValue() {
-        return "return driver.%s(%s);";
+        return "return driver.$L($L);";
     }
 }
