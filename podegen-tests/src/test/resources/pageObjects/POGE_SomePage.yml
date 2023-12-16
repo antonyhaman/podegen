@@ -1,0 +1,4 @@
+- $$submitButton:
+    name: "submit"
+- $anotherButton:
+    id: "some_id"

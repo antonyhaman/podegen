@@ -29,6 +29,5 @@ public abstract class Strategy<T extends Flavourable> {
 
     protected abstract MethodSpec getGetterMethodSpec(FieldSpec field, boolean isFindMany);
 
-
     public abstract TypeSpec generate();
 }

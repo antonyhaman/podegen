@@ -1,0 +1,8 @@
+- $$loginInput:
+    id: "login_field"
+- $passwordInput:
+    xpath: "//input[@id='password']"
+- forgotPasswordLink:
+    id: "forgot-password"
+- submitButton:
+    name: "commit"

@@ -1,8 +1,0 @@
--
-  loginInput:
-    locatorType: id
-    locator: "login_field"
--
-  passwordInput:
-    locatorType: xpath
-    locator: "//input[@id='password']"
