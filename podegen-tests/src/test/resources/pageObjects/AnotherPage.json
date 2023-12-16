@@ -1,0 +1,17 @@
+[
+  {
+    "$$areYouSureCheckbox": {
+      "xpath": "//input[@id='check']"
+    }
+  },
+  {
+    "$cancelButton": {
+      "partialLinkText": "cancel_button"
+    }
+  },
+  {
+    "header": {
+      "tagName": "head"
+    }
+  }
+]

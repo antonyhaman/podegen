@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.github.kotvertolet.podegen.core.data.Element;
 import com.github.kotvertolet.podegen.core.data.PageObjectTemplate;
 import com.github.kotvertolet.podegen.core.data.enums.LocatorType;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class JsonParser extends JsonDeserializer<List> implements Parser {
     @Override
@@ -44,8 +46,9 @@ public class JsonParser extends JsonDeserializer<List> implements Parser {
             String fieldName = arrayNode.fieldNames().next();
             while (innerObjectIter.hasNext()) {
                 JsonNode innerObject = innerObjectIter.next();
-                String locatorType = innerObject.get("locatorType").asText();
-                String locator = innerObject.get("locator").asText();
+                Map.Entry<String, TextNode> props = (Map.Entry) innerObject.properties().toArray()[0];
+                String locatorType = props.getKey();
+                String locator = props.getValue().asText();
                 pageObjElements.add(new Element(fieldName, LocatorType.get(locatorType), locator));
             }
         }

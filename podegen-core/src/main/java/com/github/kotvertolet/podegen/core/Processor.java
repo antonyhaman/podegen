@@ -69,8 +69,7 @@ public class Processor extends AbstractProcessor {
 
     private ResourceList searchForPageObjectTemplateFiles(ScanResult scanResult) {
         ResourceList rawPageFiles = scanResult.getAllResources().filter(resource ->
-                resource.getPath().matches(Config.getInstance().getSupportedFilesPattern())
-        );
+                resource.getPath().matches(Config.getInstance().getSupportedFilesPattern()));
         if (!rawPageFiles.isEmpty()) {
             return rawPageFiles;
         } else {

@@ -1,4 +1,0 @@
--
-  $$submitButton:
-    locatorType: name
-    locator: "submit"
