@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.node.TextNode;
 import com.github.kotvertolet.podegen.core.data.Element;
 import com.github.kotvertolet.podegen.core.data.PageObjectTemplate;
 import com.github.kotvertolet.podegen.core.data.enums.LocatorType;
+import com.github.kotvertolet.podegen.core.exceptions.PodegenException;
 import com.github.kotvertolet.podegen.core.utils.PathUtils;
 import io.github.classgraph.Resource;
 
@@ -29,13 +30,14 @@ public class JsonParser extends JsonDeserializer<List> implements Parser {
             objectMapper.registerModule(new SimpleModule().addDeserializer(List.class, this));
             elementList = objectMapper.readValue(resource.getContentAsString(), List.class);
         } catch (IOException e) {
-            throw new Error(e);
+            throw new PodegenException(e);
         }
         return new PageObjectTemplate(pathUtils.getClassName(), pathUtils.getPackage(), elementList);
     }
 
     @Override
-    public List<Element> deserialize(com.fasterxml.jackson.core.JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+    public List<Element> deserialize(com.fasterxml.jackson.core.JsonParser jsonParser,
+                                     DeserializationContext deserializationContext) throws IOException {
         List<Element> pageObjElements = new ArrayList<>();
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         ArrayNode array = node.withArray("");

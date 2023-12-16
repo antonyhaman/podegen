@@ -4,6 +4,7 @@ import com.github.kotvertolet.podegen.core.annotations.PageObject;
 import com.github.kotvertolet.podegen.core.builder.CodeGeneratorBuilder;
 import com.github.kotvertolet.podegen.core.data.PageObjectTemplate;
 import com.github.kotvertolet.podegen.core.data.enums.Extension;
+import com.github.kotvertolet.podegen.core.exceptions.PodegenException;
 import com.github.kotvertolet.podegen.core.parsers.JsonParser;
 import com.github.kotvertolet.podegen.core.parsers.Parser;
 import com.github.kotvertolet.podegen.core.parsers.YamlParser;
@@ -51,7 +52,7 @@ public class Processor extends AbstractProcessor {
         var annotationsSet = roundEnv.getElementsAnnotatedWith(PageObject.class);
         if (!annotationsSet.isEmpty()) {
             if (annotationsSet.size() > 1) {
-                throw new Error("More than one PageObject annotations aren't allowed");
+                throw new PodegenException("More than one PageObject annotations aren't allowed");
             }
             Config.initConfig(annotationsSet.stream().findAny().get());
             ScanResult scanResult = new ClassGraph()
@@ -73,7 +74,7 @@ public class Processor extends AbstractProcessor {
         if (!rawPageFiles.isEmpty()) {
             return rawPageFiles;
         } else {
-            throw new Error("No suitable page object template files were found");
+            throw new PodegenException("No suitable page object template files were found");
         }
     }
 
@@ -89,7 +90,7 @@ public class Processor extends AbstractProcessor {
                     .build()
                     .writeTo(filer);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PodegenException(e);
         }
     }
 
@@ -108,6 +109,6 @@ public class Processor extends AbstractProcessor {
         String[] splitPath = path.split("\\.");
         if (splitPath.length == 2) {
             return Extension.get(splitPath[1]);
-        } else throw new RuntimeException("Incorrect path supplied: " + path);
+        } else throw new PodegenException("Incorrect path supplied: " + path);
     }
 }

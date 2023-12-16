@@ -21,4 +21,6 @@ replay_pid*
 .idea
 *.iml
 
+.vscode
+
 target
