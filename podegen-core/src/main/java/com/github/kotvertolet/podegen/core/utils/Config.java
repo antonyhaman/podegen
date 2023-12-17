@@ -24,7 +24,7 @@ public class Config {
         flavours = annotation.flavour();
         strategy = annotation.strategy();
         filePrefix = annotation.prefix();
-        ownerPackage = classSymbol.owner.flatName().toString();
+        ownerPackage = annotation.packages().isEmpty() ? classSymbol.owner.flatName().toString() : annotation.packages();
         supportedFilesFormats = "(\\.yaml|\\.yml|\\.json)";
         supportedFilesPattern = String.format("^.*(%s.*%s)", filePrefix, supportedFilesFormats);
     }

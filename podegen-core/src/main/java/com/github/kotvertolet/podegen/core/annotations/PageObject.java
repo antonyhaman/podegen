@@ -18,4 +18,6 @@ public @interface PageObject {
 
     String prefix() default "";
 
+    String packages() default "";
+
 }
