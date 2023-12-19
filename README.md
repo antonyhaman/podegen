@@ -54,7 +54,7 @@ public class SearchResultsPage {
 ```
 <details>
   <summary>Or if you don't like Page Factory approach...</summary>
-  ...you can also enjoy 'classic' Page Object class: 
+  ...you can also enjoy 'classic' Page Object: 
 
 ```java
 public class SearchResultsPage {
@@ -97,7 +97,7 @@ Add this to your pom file:
 	</repositories>
 ```
 
- Now you can `podegen` dependency to your `<dependencies>` block:
+ Now you can add `podegen` dependency to your `<dependencies>` block:
 ```xml 
  	<dependency>
 	    <groupId>com.github.kotvertolet.podegen</groupId>
