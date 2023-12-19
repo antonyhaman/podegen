@@ -110,8 +110,8 @@ Add this to your pom file:
 
 1. Add `@PageObject` annotation to your configuration class (usually it's something called BaseTest or something)
 `@PageObject` annotation has 3 optional parameters:
-  - flavour - Selenium (by default) or Selenide
-  - strategy - Page Factory (by default) or Page Object
+  - flavour - `Selenium` (by default) or `Selenide`
+  - strategy - `Page Factory` (by default) or `Page Object`
   - prefix - prefix for template files, if not specified `podegen` will process all json and yaml files (not recommended)
 2. Put page object template template files into your `resources` folder in the following format:
 
