@@ -54,7 +54,7 @@ public class SearchResultsPage {
 ```
 <details>
   <summary>Or if you don't like Page Factory approach...</summary>
-  ...you can also enjoy 'classc' Page Object class: 
+  ...you can also enjoy 'classic' Page Object class: 
 
 ```java
 public class SearchResultsPage {
