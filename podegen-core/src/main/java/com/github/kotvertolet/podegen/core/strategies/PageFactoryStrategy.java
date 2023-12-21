@@ -26,7 +26,7 @@ public class PageFactoryStrategy<T extends Flavourable> extends Strategy<T> {
         String locator = element.locator();
         String locatorType = element.locatorType().getValue();
 
-        TypeName fieldType = element.isFindMany() ?
+        TypeName fieldType = element.isFindAll() ?
                 getFlavour().getWebElementsTypeName() : getFlavour().getWebElementTypeName();
 
         return FieldSpec.builder(fieldType, fieldName, Modifier.PROTECTED)
@@ -58,8 +58,8 @@ public class PageFactoryStrategy<T extends Flavourable> extends Strategy<T> {
             TypeName typeName = ClassName.get("", getPageObjectTemplate().className());
             builder = MethodSpec.methodBuilder("getPage")
                     .returns(typeName)
-                    .addModifiers(Modifier.PUBLIC)
-                    .addCode("return com.codeborne.selenide.Selenide.page(this.getClass());");
+                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                    .addCode(CodeBlock.of("return com.codeborne.selenide.Selenide.page($T.class);", typeName));
         }
         return builder.build();
     }
@@ -71,7 +71,7 @@ public class PageFactoryStrategy<T extends Flavourable> extends Strategy<T> {
         for (Element element : getPageObjectTemplate().elements()) {
             FieldSpec elementFieldSpec = getElementFieldSpec(element);
             fieldSpecs.add(elementFieldSpec);
-            MethodSpec getterMethodSpec = getGetterMethodSpec(elementFieldSpec, element.isFindMany());
+            MethodSpec getterMethodSpec = getGetterMethodSpec(elementFieldSpec, element.isFindAll());
             methodSpecs.add(getterMethodSpec);
         }
         return TypeSpec.classBuilder(getPageObjectTemplate().className())

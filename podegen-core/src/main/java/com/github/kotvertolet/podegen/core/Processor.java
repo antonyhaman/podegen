@@ -61,7 +61,7 @@ public class Processor extends AbstractProcessor {
                     .disableNestedJarScanning()
                     .scan();
             try (scanResult) {
-                searchForPageObjectTemplateFiles(scanResult).stream().map(this::processPageObjTemplateFile).forEach(this::generateCode);
+                searchForPageObjectTemplateFiles(scanResult).stream().map(this::processPageObjectTemplateFile).forEach(this::generateCode);
             }
             return true;
         }
@@ -94,8 +94,8 @@ public class Processor extends AbstractProcessor {
         }
     }
 
-    private PageObjectTemplate processPageObjTemplateFile(Resource rawPogeFile) {
-        return getAppropriateParser(rawPogeFile.getPath()).parse(rawPogeFile);
+    private PageObjectTemplate processPageObjectTemplateFile(Resource rawTemplateFile) {
+        return getAppropriateParser(rawTemplateFile.getPath()).parse(rawTemplateFile);
     }
 
     private Parser getAppropriateParser(String path) {

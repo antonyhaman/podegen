@@ -9,10 +9,10 @@ public final class Element {
     private final String elementName;
     private final LocatorType locatorType;
     private final String locator;
-    private final boolean findMany;
+    private final boolean findAll;
 
     public Element(String elementName, LocatorType locatorType, String locator) {
-        this.findMany = elementName.startsWith("$$");
+        this.findAll = elementName.startsWith("$$");
         this.elementName = elementName.replaceAll("^\\${1,2}", "");
         this.locatorType = locatorType;
         this.locator = locator;
@@ -30,8 +30,8 @@ public final class Element {
         return locator;
     }
 
-    public boolean isFindMany() {
-        return findMany;
+    public boolean isFindAll() {
+        return findAll;
     }
 
     @Override
@@ -39,12 +39,14 @@ public final class Element {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Element element = (Element) o;
-        return findMany == element.findMany && Objects.equals(elementName, element.elementName) && locatorType == element.locatorType && Objects.equals(locator, element.locator);
+        return findAll == element.findAll && Objects.equals(elementName, element.elementName)
+                && locatorType == element.locatorType
+                && Objects.equals(locator, element.locator);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(elementName, locatorType, locator, findMany);
+        return Objects.hash(elementName, locatorType, locator, findAll);
     }
 
     @Override
@@ -53,7 +55,7 @@ public final class Element {
                 "elementName='" + elementName + '\'' +
                 ", locatorType=" + locatorType +
                 ", locator='" + locator + '\'' +
-                ", findMany=" + findMany +
+                ", findMany=" + findAll +
                 '}';
     }
 }

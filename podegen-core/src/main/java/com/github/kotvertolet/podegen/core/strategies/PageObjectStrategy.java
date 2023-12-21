@@ -63,7 +63,7 @@ public class PageObjectStrategy<T extends Flavourable> extends Strategy<T> {
         for (Element element : getPageObjectTemplate().elements()) {
             FieldSpec elementFieldSpec = getElementFieldSpec(element);
             fieldSpecs.add(elementFieldSpec);
-            MethodSpec getterMethodSpec = getGetterMethodSpec(elementFieldSpec, element.isFindMany());
+            MethodSpec getterMethodSpec = getGetterMethodSpec(elementFieldSpec, element.isFindAll());
             methodSpecs.add(getterMethodSpec);
         }
 

@@ -6,9 +6,10 @@ import com.github.kotvertolet.podegen.core.data.enums.Strategies;
 import com.github.kotvertolet.podegen.core.exceptions.PodegenException;
 import com.github.kotvertolet.podegen.core.flavours.Flavourable;
 import com.github.kotvertolet.podegen.core.strategies.Strategy;
-import com.sun.tools.javac.code.Symbol;
 
 import javax.lang.model.element.Element;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Config {
 
@@ -20,21 +21,21 @@ public class Config {
     private final String supportedFilesPattern;
     private final String ownerPackage;
 
-    private Config(PageObject annotation, Symbol.ClassSymbol classSymbol) {
+    private Config(Element element) {
+        PageObject annotation = element.getAnnotation(PageObject.class);
         flavours = annotation.flavour();
         strategy = annotation.strategy();
         filePrefix = annotation.prefix();
-        ownerPackage = annotation.packages().isEmpty() ? classSymbol.owner.flatName().toString() : annotation.packages();
+        ownerPackage = annotation.packages().isEmpty() ? getOwnerPackage(element) : annotation.packages();
         supportedFilesFormats = "(\\.yaml|\\.yml|\\.json)";
         supportedFilesPattern = String.format("^.*(%s.*%s)", filePrefix, supportedFilesFormats);
     }
 
-    public static <T extends Element> void initConfig(T element) {
+    public static void initConfig(Element element) {
         if (config == null) {
-            config = new Config(element.getAnnotation(PageObject.class), (Symbol.ClassSymbol) element);
+            config = new Config(element);
         } else throw new PodegenException("Config is already initialized");
     }
-
     public static Config getInstance() {
         if (config != null) {
             return config;
@@ -72,4 +73,11 @@ public class Config {
     public String getOwnerPackage() {
         return ownerPackage;
     }
+
+    private static String getOwnerPackage(Element element) {
+        String[] packageArr = element.toString().split("\\.");
+        String className = packageArr[packageArr.length - 1];
+        return Stream.of(packageArr).takeWhile(p -> !p.equals(className)).collect(Collectors.joining("."));
+    }
+
 }
