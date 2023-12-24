@@ -22,34 +22,35 @@ public class SearchResultsPage {
   @FindBy(
       name = "q"
   )
-  protected WebElement searchInputField;
+  protected SelenideElement searchInputField;
 
   @FindBy(
       id = "search_button"
   )
-  protected WebElement submitButton;
+  protected SelenideElement submitButton;
 
   @FindBy(
-      xpath = "//section/ol[@class='react-results--main']/li"
+      xpath = "//section/ol[@class='react-results--main']/li[@data-layout='organic']"
   )
-  protected List<WebElement> searchResultsList;
+  protected ElementsCollection searchResultsList;
 
-  public SearchResultsPage(WebDriver driver) {
-    PageFactory.initElements(driver, this);
+  public static SearchResultsPage getPage() {
+    return com.codeborne.selenide.Selenide.page(SearchResultsPage.class);
   }
 
-  public WebElement getSearchInputField() {
+  public SelenideElement getSearchInputField() {
     return searchInputField;
   }
 
-  public WebElement getSubmitButton() {
+  public SelenideElement getSubmitButton() {
     return submitButton;
   }
 
-  public List<WebElement> getSearchResultsList() {
+  public ElementsCollection getSearchResultsList() {
     return searchResultsList;
   }
 }
+
 
 ```
 <details>
