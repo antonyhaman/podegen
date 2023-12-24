@@ -36,10 +36,17 @@ public class Config {
             config = new Config(element);
         } else throw new PodegenException("Config is already initialized");
     }
+
     public static Config getInstance() {
         if (config != null) {
             return config;
         } else throw new PodegenException("Configuration wasn't initialized");
+    }
+
+    private static String getOwnerPackage(Element element) {
+        String[] packageArr = element.toString().split("\\.");
+        String className = packageArr[packageArr.length - 1];
+        return Stream.of(packageArr).takeWhile(p -> !p.equals(className)).collect(Collectors.joining("."));
     }
 
     public Flavours getFlavour() {
@@ -72,12 +79,6 @@ public class Config {
 
     public String getOwnerPackage() {
         return ownerPackage;
-    }
-
-    private static String getOwnerPackage(Element element) {
-        String[] packageArr = element.toString().split("\\.");
-        String className = packageArr[packageArr.length - 1];
-        return Stream.of(packageArr).takeWhile(p -> !p.equals(className)).collect(Collectors.joining("."));
     }
 
 }

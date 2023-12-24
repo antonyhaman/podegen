@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import static com.codeborne.selenide.Selenide.open;
 
 @PageObject(flavour = Flavours.Selenide, strategy = Strategies.PageFactory)
-public class Tests {
+public class PodegenTests {
 
     @Test
     public void test() {

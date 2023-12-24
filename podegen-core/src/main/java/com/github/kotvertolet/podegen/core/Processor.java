@@ -3,12 +3,12 @@ package com.github.kotvertolet.podegen.core;
 import com.github.kotvertolet.podegen.core.annotations.PageObject;
 import com.github.kotvertolet.podegen.core.builder.CodeGeneratorBuilder;
 import com.github.kotvertolet.podegen.core.data.PageObjectTemplate;
-import com.github.kotvertolet.podegen.core.data.enums.Extension;
 import com.github.kotvertolet.podegen.core.exceptions.PodegenException;
 import com.github.kotvertolet.podegen.core.parsers.JsonParser;
 import com.github.kotvertolet.podegen.core.parsers.Parser;
 import com.github.kotvertolet.podegen.core.parsers.YamlParser;
 import com.github.kotvertolet.podegen.core.utils.Config;
+import com.github.kotvertolet.podegen.core.utils.FileLogger;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
@@ -23,7 +23,14 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static com.github.kotvertolet.podegen.core.utils.PathUtils.getFileExtension;
 
 
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
@@ -33,13 +40,18 @@ import java.util.Set;
 @AutoService(javax.annotation.processing.Processor.class)
 public class Processor extends AbstractProcessor {
 
+    public static FileLogger logger;
     private Types typeUtils;
     private Elements elementUtils;
     private Filer filer;
     private Messager messager;
 
+    //private static Logger logger = LoggerFactory.getLogger(Processor.class);
+
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
+        logger = new FileLogger();
+        logger.log("Starting processing:");
         super.init(processingEnv);
         typeUtils = processingEnv.getTypeUtils();
         elementUtils = processingEnv.getElementUtils();
@@ -58,10 +70,13 @@ public class Processor extends AbstractProcessor {
             ScanResult scanResult = new ClassGraph()
                     .acceptModules()
                     .disableJarScanning()
-                    .disableNestedJarScanning()
                     .scan();
+
             try (scanResult) {
-                searchForPageObjectTemplateFiles(scanResult).stream().map(this::processPageObjectTemplateFile).forEach(this::generateCode);
+                searchForPageObjectTemplateFiles(scanResult)
+                        .stream()
+                        .map(this::processPageObjectTemplateFile)
+                        .forEach(this::generateCode);
             }
             return true;
         }
@@ -69,10 +84,16 @@ public class Processor extends AbstractProcessor {
     }
 
     private ResourceList searchForPageObjectTemplateFiles(ScanResult scanResult) {
-        ResourceList rawPageFiles = scanResult.getAllResources().filter(resource ->
-                resource.getPath().matches(Config.getInstance().getSupportedFilesPattern()));
-        if (!rawPageFiles.isEmpty()) {
-            return rawPageFiles;
+        ResourceList rawTemplateFiles = scanResult.getResourcesMatchingPattern(Pattern.compile(Config.getInstance().getSupportedFilesPattern()))
+                .filter(resource -> resource.getURI().getPath().contains("target"));
+
+        // Filtering duplicate resources
+        rawTemplateFiles = new ResourceList(rawTemplateFiles.stream()
+                .collect(Collectors.collectingAndThen(Collectors.toCollection(()
+                        -> new TreeSet<>(Comparator.comparing(resource -> resource.getURI().getPath()))), ArrayList::new)));
+
+        if (!rawTemplateFiles.isEmpty()) {
+            return rawTemplateFiles;
         } else {
             throw new PodegenException("No suitable page object template files were found");
         }
@@ -86,7 +107,8 @@ public class Processor extends AbstractProcessor {
                 .addPageObjectTemplate(pageObjectTemplate)
                 .generateCode();
         try {
-            JavaFile.builder(conf.getOwnerPackage() + "." + pageObjectTemplate.packages(), pageObjectClass)
+            String packageName = conf.getOwnerPackage() + "." + pageObjectTemplate.packages();
+            JavaFile.builder(packageName, pageObjectClass)
                     .build()
                     .writeTo(filer);
         } catch (IOException e) {
@@ -103,12 +125,5 @@ public class Processor extends AbstractProcessor {
             case YML, YAML -> new YamlParser();
             case JSON -> new JsonParser();
         };
-    }
-
-    private Extension getFileExtension(String path) {
-        String[] splitPath = path.split("\\.");
-        if (splitPath.length == 2) {
-            return Extension.get(splitPath[1]);
-        } else throw new PodegenException("Incorrect path supplied: " + path);
     }
 }

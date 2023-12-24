@@ -1,0 +1,6 @@
+- searchInputField:
+    name: "q"
+- submitButton:
+    id: "search_button"
+- $$searchResultsList:
+    xpath: "//section/ol[@class='react-results--main']/li[@data-layout='organic']"

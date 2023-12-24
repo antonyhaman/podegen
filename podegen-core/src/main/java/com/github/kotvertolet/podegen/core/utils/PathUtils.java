@@ -1,5 +1,8 @@
 package com.github.kotvertolet.podegen.core.utils;
 
+import com.github.kotvertolet.podegen.core.data.enums.Extension;
+import com.github.kotvertolet.podegen.core.exceptions.PodegenException;
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,6 +19,13 @@ public class PathUtils {
                 .replaceAll(conf.getTemplateFilePrefix(), "")
                 .replace("/", ".")
                 .split("\\.");
+    }
+
+    public static Extension getFileExtension(String path) {
+        String[] splitPath = path.split("\\.");
+        if (splitPath.length == 2) {
+            return Extension.get(splitPath[1]);
+        } else throw new PodegenException("Incorrect path supplied: " + path);
     }
 
     public String getQualifiedClassName() {

@@ -2,6 +2,7 @@
 *.class
 
 # Log file
+logs
 *.log
 
 # Package Files #
@@ -24,3 +25,7 @@ replay_pid*
 .vscode
 
 target
+
+build
+*html
+*.png
