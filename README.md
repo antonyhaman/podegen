@@ -129,3 +129,20 @@ Where `elementName` would be used as a field name,
 `locatorType` may be any of the locator types supported by Selenium (id, name, css, xpath, etc),
 `locator` is the locator itself.
 
+3. Enable code generation in your IDE:
+
+    <details>
+      <summary>Intellij Idea</summary>
+
+       Press ctrl + shift + A and type 'Enable annotation processing', press enter and then tick 'Enable annotation processing' checkbox
+    </details>
+    <details>
+      <summary>Eclipse</summary>
+
+       TBD
+    </details>
+    <details>
+      <summary>VS Code</summary>
+
+       TBD
+    </details>
