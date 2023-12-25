@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.kotvertolet</groupId>
+    <groupId>io.github.antonyhaman</groupId>
     <artifactId>podegen</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
@@ -13,10 +13,30 @@
         <module>podegen-core</module>
     </modules>
 
+    <name>antonyhaman/podegen</name>
+    <description>Podegen - Page Object code generation library for Selenium and Selenide with Java</description>
+    <url>https://github.com/antonyhaman/podegen</url>
+    <inceptionYear>2023</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>https://api.github.com/licenses/apache-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git://github.com/antonyhaman/podegen.git</connection>
+        <developerConnection>scm:git://github.com/antonyhaman/podegen.git</developerConnection>
+        <url>git://github.com/antonyhaman/podegen.git</url>
+    </scm>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
     </properties>
 
     <build>
@@ -24,7 +44,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>${maven.compiler.plugin.version}</version>
             </plugin>
         </plugins>
     </build>
