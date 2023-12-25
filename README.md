@@ -1,4 +1,4 @@
-![Release](https://jitpack.io/v/kotvertolet/podegen.svg)   ![Static Badge](https://img.shields.io/badge/license-Apache%202.0-green)
+ ![Static Badge](https://img.shields.io/badge/license-Apache%202.0-green)   ![Static Badge](https://img.shields.io/badge/Java-17-green) 
 
 
 # Podegen - Page Object Code Generation for Selenium and Selenide in Java
@@ -88,32 +88,16 @@ public class SearchResultsPage {
 
 ## How to install?
 
-Add this to your pom file:
-```xml
-	<repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
-```
-
- Now you can add `podegen` dependency to your `<dependencies>` block:
-```xml 
- 	<dependency>
-	    <groupId>com.github.kotvertolet.podegen</groupId>
-	    <artifactId>podegen-core</artifactId>
-	    <version>v1.0.0</version>
-	</dependency>
-```
+TBD: deploying in maven central is in progress
 
 ## How to use?
 
 1. Add `@PageObject` annotation to your configuration class (usually it's something called BaseTest or something)
-`@PageObject` annotation has 3 optional parameters:
-  - flavour - `Selenium` (by default) or `Selenide`
-  - strategy - `Page Factory` (by default) or `Page Object`
-  - prefix - prefix for template files, if not specified `podegen` will process all json and yaml files (not recommended)
+`@PageObject` annotation has 4 optional parameters:
+  	- **flavour** - `Selenium` (by default) or `Selenide`
+  	- **strategy** - `Page Factory` (by default) or `Page Object`
+  	- **prefix** - prefix for template files, if not specified `Podegen` will process all json and yaml files (not recommended)
+  	- **packages** - packages where you want your page object classes generated for ex. `packages="com.example.somePackage"`, if empty `Podegen` will use packages of a class annotated with `@PageObject` annotation
 2. Put page object template template files into your `resources` folder in the following format:
 
 <details>
@@ -121,7 +105,7 @@ Add this to your pom file:
   
 ```yaml
       - elementName:
-        locatorType: "locator"
+        locatorType: "locator"		
 ```
   
 </details>
