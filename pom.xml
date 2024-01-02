@@ -7,16 +7,11 @@
     <groupId>io.github.antonyhaman</groupId>
     <artifactId>podegen</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <modules>
         <module>podegen-tests</module>
         <module>podegen-core</module>
     </modules>
-
-    <name>antonyhaman/podegen</name>
-    <description>Podegen - Page Object code generation library for Selenium and Selenide with Java</description>
-    <url>https://github.com/antonyhaman/podegen</url>
-    <inceptionYear>2023</inceptionYear>
 
     <licenses>
         <license>
@@ -25,6 +20,19 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <name>antonyhaman/podegen</name>
+    <description>Podegen - Page Object code generation library for Selenium and Selenide with Java</description>
+    <url>https://github.com/antonyhaman/podegen</url>
+    <inceptionYear>2023</inceptionYear>
+
+    <developers>
+        <developer>
+            <name>Anton Haman</name>
+            <organization>io.github.antonyhaman</organization>
+            <organizationUrl>https://github.com/antonyhaman</organizationUrl>
+        </developer>
+    </developers>
 
     <scm>
         <connection>scm:git://github.com/antonyhaman/podegen.git</connection>
@@ -37,6 +45,10 @@
             <id>ossrh</id>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
 
     <properties>
@@ -61,13 +73,13 @@
                 <configuration>
                     <serverId>ossrh</serverId>
                     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <autoReleaseAfterClose>${env.AUTO_RELEASE_AFTER_CLOSE}</autoReleaseAfterClose>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -80,7 +92,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>3.3.0</version>
+                <configuration>
+                    <links>
+                        <link>https://docs.oracle.com/en/java/javase/17/docs/api/</link>
+                    </links>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -101,6 +118,13 @@
                         <goals>
                             <goal>sign</goal>
                         </goals>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                            <passphrase>${env.GPG_PASSPHRASE}</passphrase>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
