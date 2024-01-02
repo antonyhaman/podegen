@@ -38,7 +38,7 @@ jobs:
             echo "AUTO_RELEASE_AFTER_CLOSE=false" >> $GITHUB_ENV
             # Extract current version, append -SNAPSHOT and update the pom.xml
             VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
-            NEW_VERSION="${VERSION}-SNAPSHOT-$(date +'%Y-%m-%d-%H:%M:%S')"
+            NEW_VERSION="${VERSION}-SNAPSHOT-$(date +'%Y-%m-%d_%H%M%S')"
             mvn versions:set -DnewVersion=$NEW_VERSION
           fi
 
