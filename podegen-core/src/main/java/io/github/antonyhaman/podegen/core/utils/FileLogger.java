@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.logging.*;
 
 public class FileLogger {
-    private Logger logger;
+    private final Logger logger;
 
     public FileLogger() {
         logger = Logger.getAnonymousLogger();

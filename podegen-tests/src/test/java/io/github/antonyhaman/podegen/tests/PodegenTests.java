@@ -1,6 +1,5 @@
 package io.github.antonyhaman.podegen.tests;
 
-
 import io.github.antonyhaman.podegen.core.annotations.PageObject;
 import io.github.antonyhaman.podegen.core.data.enums.Flavours;
 import io.github.antonyhaman.podegen.core.data.enums.Strategies;
