@@ -1,4 +1,4 @@
-name: Publish Package to Maven Central
+name: Maven Central
 
 on:
   pull_request:
@@ -23,7 +23,7 @@ jobs:
       - name: Step 3 - Set up Maven Central Repository
         uses: actions/setup-java@v3
         with:
-          java-version: "17"
+          java-version: "17.0.9"
           distribution: "temurin"
           server-id: ossrh
           server-username: MAVEN_USERNAME
