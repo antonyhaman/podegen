@@ -88,7 +88,40 @@ public class SearchResultsPage {
 
 ## How to install?
 
-TBD: deploying in maven central is in progress
+Add the following dependency into your POM.xml:
+```xml
+<dependency>
+   <groupId>io.github.antonyhaman</groupId>
+   <artifactId>podegen-core</artifactId>
+   <version>1.0.0</version>
+   <scope>test</scope>
+</dependency>
+```
+
+Also, it's recommended to add the following maven plugin into your `<build>` section:
+```xml
+<plugins>
+    <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+            <execution>
+                <id>add-source</id>
+                <phase>generate-sources</phase>
+                <goals>
+                    <goal>add-source</goal>
+                </goals>
+                <configuration>
+                    <sources>
+                        <source>${basedir}/target/generated-test-sources/test-annotations/</source>
+                    </sources>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+</plugins>
+```
 
 ## How to use?
 
@@ -100,49 +133,40 @@ TBD: deploying in maven central is in progress
   	- **packages** - packages where you want your page object classes generated for ex. `packages="com.example.somePackage"`, if empty `Podegen` will use packages of a class annotated with `@PageObject` annotation
 2. Put page object template template files into your `resources` folder in the following format:
 
-<details>
-  <summary>Yaml</summary>
+  <details>
+     <summary>Yaml</summary>
   
-```yaml
-      - elementName:
-        locatorType: "locator"		
-```
+   ```yaml
+         - elementName:
+           locatorType: "locator"		
+   ```
   
-</details>
+  </details>
 
-<details>
-  <summary>Json</summary>
+  <details>
+     <summary>Json</summary>
   
-```json
-[
-  {
-    "elementName": {
-      "locatorType": "locator"
-    }
-  }
-]
-```
+  ```json
+      [
+        {
+          "elementName": {
+             "locatorType": "locator"
+           }
+         }
+       ]
+  ```
+   </details>
 
-</details>
+   Where `elementName` would be used as a field name for the WebElement,
+   `locatorType` may be any of the locator types supported by Selenium (id, name, css, xpath, etc),
+   `locator` is the locator itself.
 
-Where `elementName` would be used as a field name,
-`locatorType` may be any of the locator types supported by Selenium (id, name, css, xpath, etc),
-`locator` is the locator itself.
+3. Enable annotation processing in your IDE:
 
-3. Enable code generation in your IDE:
+    #### Intellij Idea
+      Press Ctrl + Alt + S to open the IDE settings and then select Build, Execution, Deployment | Compiler | Annotation Processors and then tick 'Enable annotation processing' checkbox
 
-    <details>
-      <summary>Intellij Idea</summary>
-
-       Press ctrl + shift + A and type 'Enable annotation processing', press enter and then tick 'Enable annotation processing' checkbox
-    </details>
-    <details>
-      <summary>Eclipse</summary>
-
-       TBD
-    </details>
-    <details>
-      <summary>VS Code</summary>
-
-       TBD
-    </details>
+    #### Eclipse
+     [Please refer to this guide](https://shorturl.at/goEJ9)
+   
+4. Now you can build your project and find your generated page object classes in `target -> generated-test-sources -> test-annotations`
