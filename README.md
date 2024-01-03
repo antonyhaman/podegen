@@ -1,4 +1,4 @@
- ![Static Badge](https://img.shields.io/badge/license-Apache%202.0-green)   ![Static Badge](https://img.shields.io/badge/Java-17-green) 
+[![Maven Central](https://github.com/antonyhaman/podegen/actions/workflows/maven-publish.yml/badge.svg)](https://github.com/antonyhaman/podegen/actions/workflows/maven-publish.yml) ![Static Badge](https://img.shields.io/badge/license-Apache%202.0-green)   ![Static Badge](https://img.shields.io/badge/Java-17-green) 
 
 
 # Podegen - Page Object Code Generation for Selenium and Selenide in Java
