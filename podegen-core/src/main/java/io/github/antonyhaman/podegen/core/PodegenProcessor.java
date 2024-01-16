@@ -29,13 +29,12 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
 @SupportedAnnotationTypes({
         "io.github.antonyhaman.podegen.core.annotations.PageObject"
 })
 @AutoService(javax.annotation.processing.Processor.class)
-public class Processor extends AbstractProcessor {
+public class PodegenProcessor extends AbstractProcessor {
     private Types typeUtils;
     private Elements elementUtils;
     private Filer filer;
@@ -58,12 +57,8 @@ public class Processor extends AbstractProcessor {
                 throw new PodegenException("More than one PageObject annotations aren't allowed");
             }
             Config.initConfig(annotationsSet.stream().findAny().get());
-            ScanResult scanResult = new ClassGraph()
-                    .acceptModules()
-                    .disableJarScanning()
-                    .scan();
 
-            try (scanResult) {
+            try (ScanResult scanResult = scanForResources()) {
                 searchForPageObjectTemplateFiles(scanResult)
                         .stream()
                         .map(this::processPageObjectTemplateFile)
@@ -72,6 +67,13 @@ public class Processor extends AbstractProcessor {
             return true;
         }
         return false;
+    }
+
+    private ScanResult scanForResources() {
+        return new ClassGraph()
+                .acceptModules()
+                .disableJarScanning()
+                .scan();
     }
 
     private ResourceList searchForPageObjectTemplateFiles(ScanResult scanResult) {
