@@ -3,8 +3,8 @@
 
 # Podegen - Page Object Code Generation for Selenium and Selenide in Java
 
-Podegen is a Java library intended for generating Page Object classes out of yaml or json templates files,
-it supports both Selenium and Selenide, it also comes with two variants of the Page object. Let's how it works:
+Podegen is a Java library for generating page object classes from yaml or json template files. 
+It supports both Selenium and Selenide and has two variants of the page object. This is how it works:
 
 Template file like this:
 ```yaml
@@ -15,7 +15,7 @@ Template file like this:
 - $$searchResultsList:
     xpath: "//section/ol[@class='react-results--main']/li"
 ```
-Will produce the following page object class:
+Creates the following page object class:
 
 ```java
 public class SearchResultsPage {
@@ -125,13 +125,18 @@ Also, it's recommended to add the following maven plugin into your `<build>` sec
 
 ## How to use?
 
-1. Add `@PageObject` annotation to your configuration class (usually it's something called BaseTest or something)
-`@PageObject` annotation has 4 optional parameters:
+1. Add the `@PageObject` annotation to your configuration class (usually a class called BaseTest or something similar). 
+The `@PageObject` annotation has 4 optional parameters:
   	- **flavour** - `Selenium` (by default) or `Selenide`
   	- **strategy** - `Page Factory` (by default) or `Page Object`
-  	- **prefix** - prefix for template files, if not specified `Podegen` will process all json and yaml files (not recommended)
-  	- **packages** - packages where you want your page object classes generated for ex. `packages="com.example.somePackage"`, if empty `Podegen` will use packages of a class annotated with `@PageObject` annotation
-2. Put page object template template files into your `resources` folder in the following format:
+  	- **prefix** - prefix for template files, if not specified, Podegen will process all json and yaml files (not recommended)
+  	- **packages** - packages in which the classes for the page objects should be generated, e.g. `packages="com.example.somePackage"`,
+      if empty, Podegen will use the packages of a class provided with the `@PageObject` annotation. 
+      Note that the actual classes are generated in `target/test-annotations` in any case, but the classes have the package you specify,
+      so you can import them into your classes as if it were a class in your project.
+
+
+2. Put page object template files into your `resources` folder in the following format:
 
   <details>
      <summary>Yaml</summary>
@@ -157,9 +162,11 @@ Also, it's recommended to add the following maven plugin into your `<build>` sec
   ```
    </details>
 
-   Where `elementName` would be used as a field name for the WebElement,
-   `locatorType` may be any of the locator types supported by Selenium (id, name, css, xpath, etc),
-   `locator` is the locator itself.
+Where:
+   - `elementName` would be used as the field name for the `WebElement`/`SelenideElement` (for Selenium and Selenide flavour accordingly) 
+or if you add `$$` as a prefix to the element name, it will be `List<WebElement>`/`ElementsCollection`
+   - `locatorType` can be one of the locator types supported by Selenium (id, name, css, xpath, etc.)
+   - `locator` is the locator itself.
 
 3. Enable annotation processing in your IDE:
 
