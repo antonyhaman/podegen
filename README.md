@@ -135,6 +135,7 @@ The `@PageObject` annotation has 4 optional parameters:
       Note that the actual classes are generated in `target/test-annotations` in any case, but the classes have the package you specify,
       so you can import them into your classes as if it were a class in your project.
 
+
 2. Put page object template files into your `resources` folder in the following format:
 
   <details>
@@ -161,7 +162,7 @@ The `@PageObject` annotation has 4 optional parameters:
   ```
    </details>
 
-   Where:
+Where:
    - `elementName` would be used as the field name for the `WebElement`/`SelenideElement` (for Selenium and Selenide flavour accordingly) 
 or if you add `$$` as a prefix to the element name, it will be `List<WebElement>`/`ElementsCollection`
    - `locatorType` can be one of the locator types supported by Selenium (id, name, css, xpath, etc.)
