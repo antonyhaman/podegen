@@ -1,5 +1,6 @@
 package io.github.antonyhaman.podegen.core;
 
+import com.codeborne.selenide.Selenide;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
@@ -7,6 +8,7 @@ import io.github.antonyhaman.podegen.core.annotations.PageObject;
 import io.github.antonyhaman.podegen.core.builder.CodeGeneratorBuilder;
 import io.github.antonyhaman.podegen.core.data.PageObjectTemplate;
 import io.github.antonyhaman.podegen.core.exceptions.PodegenException;
+import io.github.antonyhaman.podegen.core.flavors.SelenideFlavor;
 import io.github.antonyhaman.podegen.core.parsers.JsonParser;
 import io.github.antonyhaman.podegen.core.parsers.Parser;
 import io.github.antonyhaman.podegen.core.parsers.YamlParser;
@@ -29,13 +31,12 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
 @SupportedAnnotationTypes({
         "io.github.antonyhaman.podegen.core.annotations.PageObject"
 })
 @AutoService(javax.annotation.processing.Processor.class)
-public class Processor extends AbstractProcessor {
+public class PodegenProcessor extends AbstractProcessor {
     private Types typeUtils;
     private Elements elementUtils;
     private Filer filer;
@@ -58,12 +59,8 @@ public class Processor extends AbstractProcessor {
                 throw new PodegenException("More than one PageObject annotations aren't allowed");
             }
             Config.initConfig(annotationsSet.stream().findAny().get());
-            ScanResult scanResult = new ClassGraph()
-                    .acceptModules()
-                    .disableJarScanning()
-                    .scan();
 
-            try (scanResult) {
+            try (ScanResult scanResult = scanForResources()) {
                 searchForPageObjectTemplateFiles(scanResult)
                         .stream()
                         .map(this::processPageObjectTemplateFile)
@@ -74,11 +71,18 @@ public class Processor extends AbstractProcessor {
         return false;
     }
 
+    private ScanResult scanForResources() {
+        return new ClassGraph()
+                .acceptModules()
+                .disableJarScanning()
+                .scan();
+    }
+
     private ResourceList searchForPageObjectTemplateFiles(ScanResult scanResult) {
         ResourceList rawTemplateFiles = scanResult.getResourcesMatchingPattern(Config.getInstance().getSupportedFileFormatsPattern())
                 .filter(resource -> resource.getURI().getPath().contains("target"));
 
-        // Filtering duplicate resources
+        // Filtering out duplicate resources
         rawTemplateFiles = new ResourceList(rawTemplateFiles.stream()
                 .collect(Collectors.collectingAndThen(Collectors.toCollection(() ->
                         new TreeSet<>(Comparator.comparing(resource -> resource.getURI().getPath()))), ArrayList::new)));
@@ -93,15 +97,17 @@ public class Processor extends AbstractProcessor {
     private void generateCode(PageObjectTemplate pageObjectTemplate) {
         Config conf = Config.getInstance();
         TypeSpec pageObjectClass = CodeGeneratorBuilder.builder()
-                .addFlavour(conf.getFlavourType())
+                .addFlavor(conf.getFlavorType())
                 .addStrategy(conf.getStrategyType())
                 .addPageObjectTemplate(pageObjectTemplate)
                 .generateCode();
         try {
             String packageName = conf.getOwnerPackage() + "." + pageObjectTemplate.packages();
-            JavaFile.builder(packageName, pageObjectClass)
-                    .build()
-                    .writeTo(filer);
+            JavaFile.Builder builder = JavaFile.builder(packageName, pageObjectClass);
+            if (conf.getFlavorType().equals(SelenideFlavor.class)) {
+                builder.addStaticImport(Selenide.class, "*");
+            }
+            builder.build().writeTo(filer);
         } catch (IOException e) {
             throw new PodegenException(e);
         }

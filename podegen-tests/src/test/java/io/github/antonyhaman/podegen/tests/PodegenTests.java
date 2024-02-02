@@ -1,7 +1,7 @@
 package io.github.antonyhaman.podegen.tests;
 
 import io.github.antonyhaman.podegen.core.annotations.PageObject;
-import io.github.antonyhaman.podegen.core.data.enums.Flavours;
+import io.github.antonyhaman.podegen.core.data.enums.Flavors;
 import io.github.antonyhaman.podegen.core.data.enums.Strategies;
 import io.github.antonyhaman.podegen.tests.pageObjects.duckduckgo.SearchResultsPage;
 import io.github.antonyhaman.podegen.tests.pageObjects.duckduckgo.StartPage;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.open;
 
-@PageObject(flavour = Flavours.Selenide, strategy = Strategies.PageFactory)
+@PageObject(flavor = Flavors.Selenide, strategy = Strategies.PageFactory)
 public class PodegenTests {
 
     @Test

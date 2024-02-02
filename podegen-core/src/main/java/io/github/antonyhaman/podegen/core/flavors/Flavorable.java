@@ -1,11 +1,11 @@
-package io.github.antonyhaman.podegen.core.flavours;
+package io.github.antonyhaman.podegen.core.flavors;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public interface Flavourable {
+public interface Flavorable {
 
     default TypeName getDriverTypeName() {
         return ClassName.get(WebDriver.class);

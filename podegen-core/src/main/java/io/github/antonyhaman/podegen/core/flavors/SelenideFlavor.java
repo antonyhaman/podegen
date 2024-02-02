@@ -1,11 +1,11 @@
-package io.github.antonyhaman.podegen.core.flavours;
+package io.github.antonyhaman.podegen.core.flavors;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
 
-public class SelenideFlavour implements Flavourable {
+public class SelenideFlavor implements Flavorable {
 
     @Override
     public TypeName getWebElementTypeName() {
@@ -17,16 +17,14 @@ public class SelenideFlavour implements Flavourable {
         return ClassName.get(ElementsCollection.class);
     }
 
-    //TODO: Find a way to import these gracefully
     @Override
     public String getFindFirstMethodName() {
-        return "com.codeborne.selenide.Selenide.$";
+        return "$";
     }
 
-    //TODO: Find a way to import these gracefully
     @Override
     public String getFindAllMethodName() {
-        return "com.codeborne.selenide.Selenide.$$";
+        return "$$";
     }
 
     @Override

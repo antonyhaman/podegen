@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-      - develop
+      - release
     types: [closed]
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
       # Set AUTO_RELEASE_AFTER_CLOSE based on branch and adjust version if develop
       - name: Step 4 - Prepare Environment Variables and Adjust Version if Develop Branch
         run: |
-          if [[ "${{ github.base_ref }}" == "main" ]]; then
+          if [[ "${{ github.base_ref }}" == "release" ]]; then
             echo "AUTO_RELEASE_AFTER_CLOSE=true" >> $GITHUB_ENV
           else
             echo "AUTO_RELEASE_AFTER_CLOSE=false" >> $GITHUB_ENV

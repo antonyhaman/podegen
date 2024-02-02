@@ -5,7 +5,7 @@
     <parent>
         <artifactId>podegen</artifactId>
         <groupId>io.github.antonyhaman</groupId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -38,6 +38,12 @@
             <artifactId>auto-service</artifactId>
             <version>1.0.1</version>
             <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

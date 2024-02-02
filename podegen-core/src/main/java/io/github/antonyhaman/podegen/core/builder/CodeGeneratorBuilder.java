@@ -2,7 +2,7 @@ package io.github.antonyhaman.podegen.core.builder;
 
 import com.squareup.javapoet.TypeSpec;
 import io.github.antonyhaman.podegen.core.data.PageObjectTemplate;
-import io.github.antonyhaman.podegen.core.flavours.Flavourable;
+import io.github.antonyhaman.podegen.core.flavors.Flavorable;
 import io.github.antonyhaman.podegen.core.strategies.Strategy;
 
 import java.lang.reflect.InvocationTargetException;
@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 public class CodeGeneratorBuilder {
 
     private PageObjectTemplate pageObjectTemplate;
-    private Class<? extends Flavourable> flavour;
+    private Class<? extends Flavorable> flavor;
     private Class<? extends Strategy> strategy;
 
     private CodeGeneratorBuilder() {
@@ -20,8 +20,8 @@ public class CodeGeneratorBuilder {
         return new CodeGeneratorBuilder();
     }
 
-    public CodeGeneratorBuilder addFlavour(Class<? extends Flavourable> flavour) {
-        this.flavour = flavour;
+    public CodeGeneratorBuilder addFlavor(Class<? extends Flavorable> flavor) {
+        this.flavor = flavor;
         return this;
     }
 
@@ -37,10 +37,10 @@ public class CodeGeneratorBuilder {
 
     public TypeSpec generateCode() {
         try {
-            Flavourable flavourObj = flavour.getDeclaredConstructor().newInstance();
+            Flavorable flavorObj = flavor.getDeclaredConstructor().newInstance();
             return strategy
-                    .getDeclaredConstructor(PageObjectTemplate.class, Flavourable.class)
-                    .newInstance(pageObjectTemplate, flavourObj)
+                    .getDeclaredConstructor(PageObjectTemplate.class, Flavorable.class)
+                    .newInstance(pageObjectTemplate, flavorObj)
                     .generate();
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                  IllegalAccessException e) {
