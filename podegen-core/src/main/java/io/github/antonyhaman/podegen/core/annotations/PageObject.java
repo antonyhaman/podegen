@@ -1,6 +1,6 @@
 package io.github.antonyhaman.podegen.core.annotations;
 
-import io.github.antonyhaman.podegen.core.data.enums.Flavours;
+import io.github.antonyhaman.podegen.core.data.enums.Flavors;
 import io.github.antonyhaman.podegen.core.data.enums.Strategies;
 
 import java.lang.annotation.ElementType;
@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.CLASS)
 public @interface PageObject {
 
-    Flavours flavour() default Flavours.Selenium;
+    Flavors flavor() default Flavors.Selenium;
 
     Strategies strategy() default Strategies.PageFactory;
 

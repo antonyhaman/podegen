@@ -1,10 +1,10 @@
 package io.github.antonyhaman.podegen.core.utils;
 
 import io.github.antonyhaman.podegen.core.annotations.PageObject;
-import io.github.antonyhaman.podegen.core.data.enums.Flavours;
+import io.github.antonyhaman.podegen.core.data.enums.Flavors;
 import io.github.antonyhaman.podegen.core.data.enums.Strategies;
 import io.github.antonyhaman.podegen.core.exceptions.PodegenException;
-import io.github.antonyhaman.podegen.core.flavours.Flavourable;
+import io.github.antonyhaman.podegen.core.flavors.Flavorable;
 import io.github.antonyhaman.podegen.core.strategies.Strategy;
 
 import javax.lang.model.element.Element;
@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class Config {
 
     private static Config config;
-    private final Flavours flavours;
+    private final Flavors flavors;
     private final Strategies strategy;
     private final String filePrefix;
     private final String supportedFilesFormats;
@@ -24,7 +24,7 @@ public class Config {
 
     private Config(Element element) {
         PageObject annotation = element.getAnnotation(PageObject.class);
-        flavours = annotation.flavour();
+        flavors = annotation.flavor();
         strategy = annotation.strategy();
         filePrefix = annotation.prefix();
         ownerPackage = annotation.packages().isEmpty() ? getOwnerPackage(element) : annotation.packages();
@@ -50,12 +50,12 @@ public class Config {
         return Stream.of(packageArr).takeWhile(p -> !p.equals(className)).collect(Collectors.joining("."));
     }
 
-    public Flavours getFlavour() {
-        return flavours;
+    public Flavors getFlavor() {
+        return flavors;
     }
 
-    public Class<? extends Flavourable> getFlavourType() {
-        return flavours.getFlavour();
+    public Class<? extends Flavorable> getFlavorType() {
+        return flavors.getFlavor();
     }
 
     public Strategies getStrategy() {

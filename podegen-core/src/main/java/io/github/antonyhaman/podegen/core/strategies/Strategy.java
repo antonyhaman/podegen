@@ -5,24 +5,24 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import io.github.antonyhaman.podegen.core.data.Element;
 import io.github.antonyhaman.podegen.core.data.PageObjectTemplate;
-import io.github.antonyhaman.podegen.core.flavours.Flavourable;
+import io.github.antonyhaman.podegen.core.flavors.Flavorable;
 
 
-public abstract class Strategy<T extends Flavourable> {
+public abstract class Strategy<T extends Flavorable> {
     private final PageObjectTemplate pageObjectTemplate;
-    private final T flavour;
+    private final T flavor;
 
-    public Strategy(PageObjectTemplate pageObjectTemplate, T flavour) {
+    public Strategy(PageObjectTemplate pageObjectTemplate, T flavor) {
         this.pageObjectTemplate = pageObjectTemplate;
-        this.flavour = flavour;
+        this.flavor = flavor;
     }
 
     public PageObjectTemplate getPageObjectTemplate() {
         return pageObjectTemplate;
     }
 
-    public T getFlavour() {
-        return flavour;
+    public T getFlavor() {
+        return flavor;
     }
 
     protected abstract FieldSpec getElementFieldSpec(Element element);
