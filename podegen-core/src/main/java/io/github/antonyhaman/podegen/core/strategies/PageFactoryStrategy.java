@@ -3,8 +3,8 @@ package io.github.antonyhaman.podegen.core.strategies;
 import com.squareup.javapoet.*;
 import io.github.antonyhaman.podegen.core.data.Element;
 import io.github.antonyhaman.podegen.core.data.PageObjectTemplate;
-import io.github.antonyhaman.podegen.core.flavours.Flavourable;
-import io.github.antonyhaman.podegen.core.flavours.SeleniumFlavour;
+import io.github.antonyhaman.podegen.core.flavors.Flavorable;
+import io.github.antonyhaman.podegen.core.flavors.SeleniumFlavor;
 import io.github.antonyhaman.podegen.core.utils.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -14,10 +14,10 @@ import javax.lang.model.element.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PageFactoryStrategy<T extends Flavourable> extends Strategy<T> {
+public class PageFactoryStrategy<T extends Flavorable> extends Strategy<T> {
 
-    public PageFactoryStrategy(PageObjectTemplate pageObjectTemplate, T flavour) {
-        super(pageObjectTemplate, flavour);
+    public PageFactoryStrategy(PageObjectTemplate pageObjectTemplate, T flavor) {
+        super(pageObjectTemplate, flavor);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class PageFactoryStrategy<T extends Flavourable> extends Strategy<T> {
         String locatorType = element.locatorType().getValue();
 
         TypeName fieldType = element.isFindAll() ?
-                getFlavour().getWebElementsTypeName() : getFlavour().getWebElementTypeName();
+                getFlavor().getWebElementsTypeName() : getFlavor().getWebElementTypeName();
 
         return FieldSpec.builder(fieldType, fieldName, Modifier.PROTECTED)
                 .addAnnotation(AnnotationSpec.builder(FindBy.class)
@@ -41,7 +41,7 @@ public class PageFactoryStrategy<T extends Flavourable> extends Strategy<T> {
         String fieldName = field.name;
         MethodSpec.Builder builder = MethodSpec.methodBuilder("get" + StringUtils.capitalize(fieldName))
                 .addModifiers(Modifier.PUBLIC)
-                .returns(isFindMany ? getFlavour().getWebElementsTypeName() : getFlavour().getWebElementTypeName());
+                .returns(isFindMany ? getFlavor().getWebElementsTypeName() : getFlavor().getWebElementTypeName());
 
         builder.addCode(CodeBlock.of(String.format("return %s;", fieldName)));
         return builder.build();
@@ -50,7 +50,7 @@ public class PageFactoryStrategy<T extends Flavourable> extends Strategy<T> {
     protected MethodSpec getMethodForPageFactoryInitialization() {
         MethodSpec.Builder builder;
 
-        if (getFlavour().getClass() == SeleniumFlavour.class) {
+        if (getFlavor().getClass() == SeleniumFlavor.class) {
             builder = MethodSpec.constructorBuilder().addParameter(WebDriver.class, "driver")
                     .addModifiers(Modifier.PUBLIC)
                     .addCode(CodeBlock.of("$T.initElements(driver, this);", PageFactory.class));
@@ -59,7 +59,7 @@ public class PageFactoryStrategy<T extends Flavourable> extends Strategy<T> {
             builder = MethodSpec.methodBuilder("getPage")
                     .returns(typeName)
                     .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                    .addCode(CodeBlock.of("return com.codeborne.selenide.Selenide.page($T.class);", typeName));
+                    .addCode(CodeBlock.of("return page($T.class);", typeName));
         }
         return builder.build();
     }

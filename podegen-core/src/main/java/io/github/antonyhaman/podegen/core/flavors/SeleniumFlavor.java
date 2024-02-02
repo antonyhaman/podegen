@@ -1,4 +1,4 @@
-package io.github.antonyhaman.podegen.core.flavours;
+package io.github.antonyhaman.podegen.core.flavors;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.ParameterizedTypeName;
@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class SeleniumFlavour implements Flavourable {
+public class SeleniumFlavor implements Flavorable {
 
     @Override
     public TypeName getWebElementTypeName() {

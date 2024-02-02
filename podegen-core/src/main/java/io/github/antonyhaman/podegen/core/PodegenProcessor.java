@@ -1,5 +1,6 @@
 package io.github.antonyhaman.podegen.core;
 
+import com.codeborne.selenide.Selenide;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
@@ -7,6 +8,7 @@ import io.github.antonyhaman.podegen.core.annotations.PageObject;
 import io.github.antonyhaman.podegen.core.builder.CodeGeneratorBuilder;
 import io.github.antonyhaman.podegen.core.data.PageObjectTemplate;
 import io.github.antonyhaman.podegen.core.exceptions.PodegenException;
+import io.github.antonyhaman.podegen.core.flavors.SelenideFlavor;
 import io.github.antonyhaman.podegen.core.parsers.JsonParser;
 import io.github.antonyhaman.podegen.core.parsers.Parser;
 import io.github.antonyhaman.podegen.core.parsers.YamlParser;
@@ -80,7 +82,7 @@ public class PodegenProcessor extends AbstractProcessor {
         ResourceList rawTemplateFiles = scanResult.getResourcesMatchingPattern(Config.getInstance().getSupportedFileFormatsPattern())
                 .filter(resource -> resource.getURI().getPath().contains("target"));
 
-        // Filtering duplicate resources
+        // Filtering out duplicate resources
         rawTemplateFiles = new ResourceList(rawTemplateFiles.stream()
                 .collect(Collectors.collectingAndThen(Collectors.toCollection(() ->
                         new TreeSet<>(Comparator.comparing(resource -> resource.getURI().getPath()))), ArrayList::new)));
@@ -95,13 +97,16 @@ public class PodegenProcessor extends AbstractProcessor {
     private void generateCode(PageObjectTemplate pageObjectTemplate) {
         Config conf = Config.getInstance();
         TypeSpec pageObjectClass = CodeGeneratorBuilder.builder()
-                .addFlavour(conf.getFlavourType())
+                .addFlavor(conf.getFlavorType())
                 .addStrategy(conf.getStrategyType())
                 .addPageObjectTemplate(pageObjectTemplate)
                 .generateCode();
         try {
             String packageName = conf.getOwnerPackage() + "." + pageObjectTemplate.packages();
-            JavaFile.builder(packageName, pageObjectClass)
+            JavaFile.Builder builder = JavaFile.builder(packageName, pageObjectClass);
+            if (conf.getFlavorType().equals(SelenideFlavor.class)) {
+                builder.addStaticImport(Selenide.class, "*");
+            }
                     .build()
                     .writeTo(filer);
         } catch (IOException e) {
