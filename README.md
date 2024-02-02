@@ -93,7 +93,7 @@ Add the following dependency into your POM.xml:
 <dependency>
    <groupId>io.github.antonyhaman</groupId>
    <artifactId>podegen-core</artifactId>
-   <version>1.0.0</version>
+   <version>1.1.0</version>
    <scope>test</scope>
 </dependency>
 ```
