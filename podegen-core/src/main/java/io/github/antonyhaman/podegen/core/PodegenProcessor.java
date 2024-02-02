@@ -107,8 +107,7 @@ public class PodegenProcessor extends AbstractProcessor {
             if (conf.getFlavorType().equals(SelenideFlavor.class)) {
                 builder.addStaticImport(Selenide.class, "*");
             }
-                    .build()
-                    .writeTo(filer);
+            builder.build().writeTo(filer);
         } catch (IOException e) {
             throw new PodegenException(e);
         }
