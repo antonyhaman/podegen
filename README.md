@@ -135,6 +135,9 @@ The `@PageObject` annotation has 4 optional parameters:
       Note that the actual classes are generated in `target/test-annotations` in any case, but the classes have the package you specify,
       so you can import them into your classes as if it were a class in your project.
 
+```java
+@PageObject(flavour = Flavours.Selenide, strategy = Strategies.PageFactory, prefix = "PO_", packages = "com.example.test")
+```
 
 2. Put page object template files into your `resources` folder in the following format:
 
