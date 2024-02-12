@@ -139,7 +139,7 @@ The `@PageObject` annotation has 4 optional parameters:
 @PageObject(flavour = Flavours.Selenide, strategy = Strategies.PageFactory, prefix = "PO_", packages = "com.example.test")
 ```
 
-2. Put page object template files into your `resources` folder in the following format:
+2. Put page object template files into `resources` folder of the same source root as the class annotated with `@PageObject`, for example, if the class annotated with `@PageObject` is located in the `src/main` directory, then the page object template files should be placed in the `src/main/resources` directory. Page object template files should be in the following format:
 
   <details>
      <summary>Yaml</summary>
