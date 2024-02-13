@@ -94,7 +94,6 @@ Add the following dependency into your POM.xml:
    <groupId>io.github.antonyhaman</groupId>
    <artifactId>podegen-core</artifactId>
    <version>1.1.0</version>
-   <scope>test</scope>
 </dependency>
 ```
 
