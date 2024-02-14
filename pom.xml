@@ -7,7 +7,8 @@
     <groupId>io.github.antonyhaman</groupId>
     <artifactId>podegen</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
+  
     <modules>
         <module>podegen-tests</module>
         <module>podegen-core</module>
@@ -145,14 +146,7 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>7.0.2</version>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
+            <version>7.1.0</version>
         </dependency>
     </dependencies>
 </project>
