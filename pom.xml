@@ -8,6 +8,7 @@
     <artifactId>podegen</artifactId>
     <packaging>pom</packaging>
     <version>1.1.1</version>
+  
     <modules>
         <module>podegen-tests</module>
         <module>podegen-core</module>
